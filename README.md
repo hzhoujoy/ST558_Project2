@@ -4,8 +4,8 @@ Joy Zhou
 2023-10-03
 
 - <a href="#diseasesh-open-disease-data-api-vigenette"
-  id="toc-diseasesh-open-disease-data-api-vigenette">disease.sh-Open
-  Disease Data API VIGENETTE</a>
+  id="toc-diseasesh-open-disease-data-api-vigenette"><code>disease.sh-Open Disease Data API</code>
+  VIGENETTE</a>
 - <a href="#requirements" id="toc-requirements">Requirements</a>
 - <a href="#data-exploration" id="toc-data-exploration">Data
   Exploration</a>
@@ -26,12 +26,13 @@ rmarkdown::render("Project2_JoyZhoy.Rmd",
 )
 ```
 
-# disease.sh-Open Disease Data API VIGENETTE
+# `disease.sh-Open Disease Data API` VIGENETTE
 
-In this vignette, I will describe how to read and summarize data from
-`disease.sh-Open Disease Data API`. I will create several functions to
-access and retrieve data that I am interested in from APIs. I will also
-demonstrate how to conduct analysis using some of R packages.
+In this vignette, I will provide instructions on reading and summarizing
+data from the `disease.sh-Open Disease Data API`. I will develop a set
+of functions to access and retrieve specific data of interest from the
+APIs. Additionally, I will illustrate the process of conducting data
+analysis using various R packages.
 
 # Requirements
 
@@ -638,7 +639,7 @@ plot1 <- ggplot(Countrycombined, aes(x = casesPerOneMillion, y = dosePerOneMilli
 plot1
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-28-1.png)<!-- -->
 
 The scatter plot reveals a positive correlation between reported
 Covid-19 cases and cumulative vaccinations, consistently observed across
@@ -682,7 +683,7 @@ plot2 <- ggplot(combined_data,
 print(plot2)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-29-1.png)<!-- -->
 
 The scatter plot suggests that the 50 countries with the lowest
 mortality rates generally had higher levels of distributed vaccination
@@ -711,24 +712,23 @@ var_data <- Countrycombined %>%
 
 iso2_values <- var_data$countryInfo$iso2
 
-# Create the line plot with ordered data
+# Create the bar chart
 plot <- ggplot(var_data, 
-               aes(x = reorder(factor(iso2_values), casesPerOneMillion), 
+               aes(x = reorder(factor(iso2_values), -casesPerOneMillion), 
                    y = casesPerOneMillion)) +
-  geom_line() +
-  geom_point() +
-  labs(title = "Trends of COVID-19 Cases in 30 European Countries",
-       x = "Country (ISO2)", 
+  geom_bar(stat = "identity", fill = "blue") +
+  labs(title = "COVID-19 Cases per One Million in 30 European Countries",
+       x = "Country (ISO2)",
        y = "Cases per One Million")
 
 # Rotate x-axis labels for better readability (optional)
-plot3 <- plot + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+plot3 <- plot + theme(axis.text.x = element_text(angle = 0, hjust = 1))
 
-# Display the plot
+# Display the bar chart
 print(plot3)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-30-1.png)<!-- -->
 
 Subsequently, I retrieved variant data specifically for these two
 countries and created two-way contingency tables to analyze the variants
@@ -879,7 +879,7 @@ plot4 <- ggplot(var30Coun, aes(x = Year, y = Freq, fill = Variant)) +
 print(plot4)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-34-1.png)<!-- -->
 
 The area chart depicts the variations in reported variants across 30
 European countries over the years, emphasizing changes in variant types.
@@ -961,7 +961,7 @@ plot6 <- ggplot() +
 plot6
 ```
 
-<img src="README_files/figure-gfm/unnamed-chunk-26-1.png" width="50%" /><img src="README_files/figure-gfm/unnamed-chunk-26-2.png" width="50%" />
+<img src="README_files/figure-gfm/unnamed-chunk-36-1.png" width="50%" /><img src="README_files/figure-gfm/unnamed-chunk-36-2.png" width="50%" />
 
 The maps show that reported Covid-19 cases and distributed vaccination
 doses varied across 47 states. The higher reported cases related with

@@ -28,8 +28,8 @@ rmarkdown::render("Project2_JoyZhoy.Rmd",
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# disease.sh-Open Disease Data API VIGENETTE 
-In this vignette, I will describe how to read and summarize data from `disease.sh-Open Disease Data API`. I will create several functions to access and retrieve data that I am interested in from APIs. I will also demonstrate how to conduct analysis using some of R packages. 
+# `disease.sh-Open Disease Data API` VIGENETTE 
+In this vignette, I will provide instructions on reading and summarizing data from the `disease.sh-Open Disease Data API`. I will develop a set of functions to access and retrieve specific data of interest from the APIs. Additionally, I will illustrate the process of conducting data analysis using various R packages. 
 
 # Requirements  
 To use the functions for interacting with the `disease.sh-Open Disease Data` API, I used the following packages:
@@ -614,20 +614,19 @@ var_data <- Countrycombined %>%
 
 iso2_values <- var_data$countryInfo$iso2
 
-# Create the line plot with ordered data
+# Create the bar chart
 plot <- ggplot(var_data, 
-               aes(x = reorder(factor(iso2_values), casesPerOneMillion), 
+               aes(x = reorder(factor(iso2_values), -casesPerOneMillion), 
                    y = casesPerOneMillion)) +
-  geom_line() +
-  geom_point() +
-  labs(title = "Trends of COVID-19 Cases in 30 European Countries",
-       x = "Country (ISO2)", 
+  geom_bar(stat = "identity", fill = "blue") +
+  labs(title = "COVID-19 Cases per One Million in 30 European Countries",
+       x = "Country (ISO2)",
        y = "Cases per One Million")
 
 # Rotate x-axis labels for better readability (optional)
-plot3 <- plot + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+plot3 <- plot + theme(axis.text.x = element_text(angle = 0, hjust = 1))
 
-# Display the plot
+# Display the bar chart
 print(plot3)
 ```
 
