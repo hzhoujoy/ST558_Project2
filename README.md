@@ -687,22 +687,20 @@ Countrycombined %>%
             meddose = median(dosePerOneMillion))
 ```
 
-    ## Adding missing grouping variables:
-    ## `continent`
+    ## Adding missing grouping variables: `continent`
 
     ## # A tibble: 6 × 10
-    ##   continent             n avrcases medcases
-    ##   <chr>             <int>    <dbl>    <dbl>
-    ## 1 Africa               54   33538.     4898
-    ## 2 Asia                 49  160561.    79571
-    ## 3 Australia-Oceania    17  236213.   243909
-    ## 4 Europe               47  401337.   433548
-    ## 5 North America        34  185042.   169613
-    ## 6 South America        13  176257.   134187
-    ## # ℹ 6 more variables: avrdeaths <dbl>,
-    ## #   meddeaths <dbl>, avrrecovered <dbl>,
-    ## #   medrecovered <dbl>, avrdose <dbl>,
-    ## #   meddose <dbl>
+    ##   continent       n avrcases medcases avrdeaths
+    ##   <chr>       <int>    <dbl>    <dbl>     <dbl>
+    ## 1 Africa         54   33538.     4898      312.
+    ## 2 Asia           49  160561.    79571      715.
+    ## 3 Australia-…    17  236213.   243909      472.
+    ## 4 Europe         47  401337.   433548     2717.
+    ## 5 North Amer…    34  185042.   169613     1516.
+    ## 6 South Amer…    13  176257.   134187     2447.
+    ## # ℹ 5 more variables: meddeaths <dbl>,
+    ## #   avrrecovered <dbl>, medrecovered <dbl>,
+    ## #   avrdose <dbl>, meddose <dbl>
 
 European countries report the highest average Covid-19 deaths, with an
 average of 2717 deaths per one million people, followed closely by

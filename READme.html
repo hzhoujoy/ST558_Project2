@@ -1208,22 +1208,20 @@ and <code>casesPerOneMillion</code>, with an r score of 0.517.</p>
 <span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">medrecovered =</span> <span class="fu">median</span>(recoveredPerOneMillion),</span>
 <span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">avrdose =</span> <span class="fu">mean</span>(dosePerOneMillion),</span>
 <span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">meddose =</span> <span class="fu">median</span>(dosePerOneMillion))</span></code></pre></div>
-<pre><code>## Adding missing grouping variables:
-## `continent`
+<pre><code>## Adding missing grouping variables: `continent`
 
 ## # A tibble: 6 × 10
-##   continent             n avrcases medcases
-##   &lt;chr&gt;             &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;
-## 1 Africa               54   33538.     4898
-## 2 Asia                 49  160561.    79571
-## 3 Australia-Oceania    17  236213.   243909
-## 4 Europe               47  401337.   433548
-## 5 North America        34  185042.   169613
-## 6 South America        13  176257.   134187
-## # ℹ 6 more variables: avrdeaths &lt;dbl&gt;,
-## #   meddeaths &lt;dbl&gt;, avrrecovered &lt;dbl&gt;,
-## #   medrecovered &lt;dbl&gt;, avrdose &lt;dbl&gt;,
-## #   meddose &lt;dbl&gt;</code></pre>
+##   continent       n avrcases medcases avrdeaths
+##   &lt;chr&gt;       &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1 Africa         54   33538.     4898      312.
+## 2 Asia           49  160561.    79571      715.
+## 3 Australia-…    17  236213.   243909      472.
+## 4 Europe         47  401337.   433548     2717.
+## 5 North Amer…    34  185042.   169613     1516.
+## 6 South Amer…    13  176257.   134187     2447.
+## # ℹ 5 more variables: meddeaths &lt;dbl&gt;,
+## #   avrrecovered &lt;dbl&gt;, medrecovered &lt;dbl&gt;,
+## #   avrdose &lt;dbl&gt;, meddose &lt;dbl&gt;</code></pre>
 <p>European countries report the highest average Covid-19 deaths, with
 an average of 2717 deaths per one million people, followed closely by
 countries in South America, which report an average of 2447 deaths per
