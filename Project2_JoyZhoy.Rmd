@@ -12,14 +12,13 @@ output:
 ```{r, eval=FALSE} 
 library(rmarkdown)
 
-rmarkdown::render("Project2_JoyZhoy.Rmd", 
+rmarkdown::render("C:\\PestList\\MyDocuments\\Statistic\\ST558\\repos\\ST558_Project2\\Project2_JoyZhoy.Rmd", 
                   output_format = "github_document", 
                   output_file = "README.md",
                   output_options = list(
                     toc = TRUE,
                     toc_depth = 3,
                     toc_float = TRUE,
-                    number_sections = TRUE,
                     df_print = "tibble"
                   )
 )

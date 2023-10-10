@@ -3,44 +3,42 @@ Project2_JoyZhou
 Joy Zhou
 2023-10-03
 
-- <a href="#1-diseasesh-open-disease-data-api-vigenette"
-  id="toc-1-diseasesh-open-disease-data-api-vigenette">1 disease.sh-Open
+- <a href="#diseasesh-open-disease-data-api-vigenette"
+  id="toc-diseasesh-open-disease-data-api-vigenette">disease.sh-Open
   Disease Data API VIGENETTE</a>
-- <a href="#2-requirements" id="toc-2-requirements">2 Requirements</a>
-- <a href="#3-data-exploration" id="toc-3-data-exploration">3 Data
+- <a href="#requirements" id="toc-requirements">Requirements</a>
+- <a href="#data-exploration" id="toc-data-exploration">Data
   Exploration</a>
-- <a href="#4-wrap-up" id="toc-4-wrap-up">4 Wrap up</a>
+- <a href="#wrap-up" id="toc-wrap-up">Wrap up</a>
 
 ``` r
 library(rmarkdown)
 
-rmarkdown::render("Project2_JoyZhoy.Rmd", 
+rmarkdown::render("C:\\PestList\\MyDocuments\\Statistic\\ST558\\repos\\ST558_Project2\\Project2_JoyZhoy.Rmd", 
                   output_format = "github_document", 
                   output_file = "README.md",
                   output_options = list(
                     toc = TRUE,
                     toc_depth = 3,
                     toc_float = TRUE,
-                    number_sections = TRUE,
                     df_print = "tibble"
                   )
 )
 ```
 
-# 1 disease.sh-Open Disease Data API VIGENETTE
+# disease.sh-Open Disease Data API VIGENETTE
 
 In this vignette, I will describe how to read and summarize data from
 `disease.sh-Open Disease Data API`.
 
-# 2 Requirements
+# Requirements
 
 To use the functions for interacting with the
 `disease.sh-Open Disease Data` API, I used the following packages:
 
 - [`tidyverse`](https://www.tidyverse.org/): for data manipulation,
-  visualization, and analysis. it includes essential package such as
-  `dplyr`, `ggplot2`, `tidyr`, `readr`. +
-  [\`jsonlite’](https://cran.r-project.org/web/packages/jsonlite/): to
+  visualization, and analysis.  
+- [\`jsonlite’](https://cran.r-project.org/web/packages/jsonlite/): to
   convert JSON data to data frame.  
 - [`httr2`](https://httr2.r-lib.org/):to access API.  
 - [`maps`](https://cran.r-project.org/web/packages/maps/index.html): to
@@ -542,7 +540,7 @@ Variant <- function(country) {
 }
 ```
 
-# 3 Data Exploration
+# Data Exploration
 
 Call the `CountryVaccine` and `countryCovidcase` functions to get data
 sets then combine them by country. I will do the further analysis based
@@ -638,7 +636,7 @@ plot1 <- ggplot(Countrycombined, aes(x = casesPerOneMillion, y = dosePerOneMilli
 plot1
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
 
 The scatter plot reveals a positive correlation between reported
 Covid-19 cases and cumulative vaccinations, consistently observed across
@@ -682,7 +680,7 @@ plot2 <- ggplot(combined_data,
 print(plot2)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
 
 The scatter plot suggests that the 50 countries with the lowest
 mortality rates generally had higher levels of distributed vaccination
@@ -728,7 +726,7 @@ plot3 <- plot + theme(axis.text.x = element_text(angle = 90, hjust = 1))
 print(plot3)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
 
 Subsequently, I retrieved variant data specifically for these two
 countries and created two-way contingency tables to analyze the variants
@@ -747,7 +745,7 @@ knitr::kable(table(data_A$year, data_A$variant),
 ```
 
 |      | AY.4.2 | B.1.1.529 | B.1.1.7 | B.1.1.7+E484K | B.1.351 | B.1.525 | B.1.617.1 | B.1.617.2 | B.1.621 | BA.1 | BA.2 | BA.2.75 | BA.3 | BA.4 | BA.4/BA.5 | BA.5 | BQ.1 | Other | P.1 | SGTF | UNK | XBB | XBB.1.5 | XBB.1.5+F456L |
-|------|-------:|----------:|--------:|--------------:|--------:|--------:|----------:|----------:|--------:|-----:|-----:|--------:|-----:|-----:|----------:|-----:|-----:|------:|----:|-----:|----:|----:|--------:|--------------:|
+|:-----|-------:|----------:|--------:|--------------:|--------:|--------:|----------:|----------:|--------:|-----:|-----:|--------:|-----:|-----:|----------:|-----:|-----:|------:|----:|-----:|----:|----:|--------:|--------------:|
 | 2020 |      0 |         0 |       5 |             0 |       1 |       0 |         0 |         1 |       0 |    0 |    1 |       0 |    0 |    0 |         0 |    0 |    0 |    43 |   0 |    0 |  11 |   0 |       0 |             0 |
 | 2021 |      9 |         7 |      77 |            24 |      49 |      26 |         8 |        93 |      16 |   17 |    5 |       0 |    0 |    1 |         0 |    0 |    0 |    30 |  34 |    1 |  52 |   0 |       0 |             0 |
 | 2022 |      0 |        15 |       6 |             2 |       0 |       0 |         0 |        50 |       0 |   85 |  104 |      39 |    6 |   77 |        25 |   78 |   33 |    55 |   5 |    4 |  52 |  31 |       9 |             0 |
@@ -779,7 +777,7 @@ knitr::kable(table(data_P$year, data_P$variant),
 ```
 
 |      | B.1.1.529 | B.1.1.7 | B.1.351 | B.1.525 | B.1.617.1 | B.1.617.2 | B.1.621 | BA.1 | BA.2 | BA.2.75 | BA.4 | BA.5 | BQ.1 | C.37 | Other | P.1 | UNK | XBB | XBB.1.5 | XBB.1.5+F456L |
-|------|----------:|--------:|--------:|--------:|----------:|----------:|--------:|-----:|-----:|--------:|-----:|-----:|-----:|-----:|------:|----:|----:|----:|--------:|--------------:|
+|:-----|----------:|--------:|--------:|--------:|----------:|----------:|--------:|-----:|-----:|--------:|-----:|-----:|-----:|-----:|------:|----:|----:|----:|--------:|--------------:|
 | 2020 |         0 |       2 |       0 |       0 |         0 |         1 |       0 |    0 |    0 |       0 |    0 |    0 |    0 |    0 |    36 |   0 |   0 |   0 |       0 |             0 |
 | 2021 |         9 |      73 |      36 |       3 |         1 |        78 |       9 |    4 |    1 |       0 |    0 |    1 |    0 |    2 |    62 |  20 |  17 |   0 |       0 |             0 |
 | 2022 |        15 |       1 |       0 |       0 |         3 |        25 |       0 |   30 |   72 |      29 |   45 |   67 |   26 |    0 |    26 |   0 |  11 |  12 |       1 |             0 |
@@ -852,7 +850,7 @@ knitr::kable(table(var30Coun$Year, var30Coun$Variant),
 ```
 
 |      | AY.4.2 | B.1.1.529 | B.1.1.7 | B.1.1.7+E484K | B.1.351 | B.1.427/B.1.429 | B.1.525 | B.1.616 | B.1.617.1 | B.1.617.2 | B.1.617.3 | B.1.620 | B.1.621 | BA.1 | BA.2 | BA.2.75 | BA.2+L452X | BA.3 | BA.4 | BA.4/BA.5 | BA.5 | BQ.1 | C.37 | Other | P.1 | P.3 | SGTF | UNK | XBB | XBB.1.5 | XBB.1.5+F456L |
-|------|-------:|----------:|--------:|--------------:|--------:|----------------:|--------:|--------:|----------:|----------:|----------:|--------:|--------:|-----:|-----:|--------:|-----------:|-----:|-----:|----------:|-----:|-----:|-----:|------:|----:|----:|-----:|----:|----:|--------:|--------------:|
+|:-----|-------:|----------:|--------:|--------------:|--------:|----------------:|--------:|--------:|----------:|----------:|----------:|--------:|--------:|-----:|-----:|--------:|-----------:|-----:|-----:|----------:|-----:|-----:|-----:|------:|----:|----:|-----:|----:|----:|--------:|--------------:|
 | 2020 |      1 |        23 |     186 |             0 |      32 |               2 |       1 |       1 |         0 |        96 |         0 |       1 |       4 |   16 |   26 |       0 |          0 |    0 |    1 |         0 |   27 |    3 |    0 |  1098 |   8 |   0 |   19 | 215 |   1 |       1 |             0 |
 | 2021 |     65 |       163 |    1069 |            54 |     557 |              53 |     296 |      14 |       121 |      1218 |         2 |     107 |     193 |  249 |  131 |       5 |          0 |    2 |    4 |         0 |   76 |    7 |  110 |  1009 | 463 |  20 |   21 | 388 |   2 |       2 |             0 |
 | 2022 |      9 |       149 |      40 |             3 |       8 |               0 |       1 |       0 |         3 |       429 |         1 |       0 |       0 |  879 | 1325 |     552 |         29 |   88 |  873 |        69 | 1090 |  502 |    0 |   882 |   9 |   0 |   18 | 318 | 319 |     122 |             0 |
@@ -879,7 +877,7 @@ plot4 <- ggplot(var30Coun, aes(x = Year, y = Freq, fill = Variant)) +
 print(plot4)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
 
 The area chart depicts the variations in reported variants across 30
 European countries over the years, emphasizing changes in variant types.
@@ -961,13 +959,13 @@ plot6 <- ggplot() +
 plot6
 ```
 
-<img src="README_files/figure-gfm/unnamed-chunk-27-1.png" width="50%" /><img src="README_files/figure-gfm/unnamed-chunk-27-2.png" width="50%" />
+<img src="README_files/figure-gfm/unnamed-chunk-26-1.png" width="50%" /><img src="README_files/figure-gfm/unnamed-chunk-26-2.png" width="50%" />
 
 The maps show that reported Covid-19 cases and distributed vaccination
 doses varied across 47 states. The higher reported cases related with
 lower vaccination doses.
 
-# 4 Wrap up
+# Wrap up
 
 To summarize the work accomplished in this vignette, I developed
 functions to interact with various endpoints of the
