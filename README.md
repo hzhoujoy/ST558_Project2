@@ -3,9 +3,13 @@ Project2_JoyZhou
 Joy Zhou
 2023-10-03
 
-- <a href="#1-diseasesh-open-disease-data-api-vigenette"
-  id="toc-1-diseasesh-open-disease-data-api-vigenette">1 disease.sh-Open
+- <a href="#diseasesh-open-disease-data-api-vigenette"
+  id="toc-diseasesh-open-disease-data-api-vigenette">disease.sh-Open
   Disease Data API VIGENETTE</a>
+- <a href="#requirements" id="toc-requirements">Requirements</a>
+- <a href="#data-exploration" id="toc-data-exploration">Data
+  Exploration</a>
+- <a href="#wrap-up" id="toc-wrap-up">Wrap up</a>
 
 ``` r
 library(rmarkdown)
@@ -16,33 +20,51 @@ rmarkdown::render("Project2_JoyZhoy.Rmd",
                   output_options = list(
                     name_value_pairs = "value",
                     toc = TRUE,
+                    code_folding: hide,
                     toc_depth = 3,
-                    number_sections = TRUE,
+                    # number_sections = TRUE,
                     df_print = "tibble"
                   )
 )
 ```
 
-# 1 disease.sh-Open Disease Data API VIGENETTE
+# disease.sh-Open Disease Data API VIGENETTE
 
-In this vignette, I will describe how to read and summarize data from an
-APIs. \# Requirements To use the functions for interacting with the
-`NHL` API, I used the following packages: The following packages are
-required to develop the vignette and to excute the functions and engage
-with the API.
+In this vignette, I will describe how to read and summarize data from
+`disease.sh-Open Disease Data API`.
 
-. [`tidyverse`](https://www.tidyverse.org/): .
-[`jaonlite'](https://cran.r-project.org/web/packages/jsonlite/): is particularly powerful for building pipelines and interacting with a web API. . [`httr2\`](https://httr2.r-lib.org/):
+# Requirements
 
-load the library that I needed to build this vigenette
+To use the functions for interacting with the
+`disease.sh-Open Disease Data` API, I used the following packages:
+
+. [`tidyverse`](https://www.tidyverse.org/): for data manipulation,
+visualization, and analysis. it includes essential package such as
+`dplyr`, `ggplot2`, `tidyr`, `readr`.  
+. [\`jsonlite’](https://cran.r-project.org/web/packages/jsonlite/): to
+convert JSON data to data frame.
+
+. [`httr2`](https://httr2.r-lib.org/):to access API.
+
+. [`maps`](https://cran.r-project.org/web/packages/maps/index.html): to
+create choropleth map.
+
+.
+[`viridis`](https://cran.r-project.org/web/packages/viridis/index.html):
+to make color map.
+
+Load the libraries that I needed to build this `vigenette`
 
 ``` r
 library(httr2)
+library(httr)
 library(jsonlite)
 library(tidyverse)
 library(sjmisc)
-library(countrycode)
 library(ggplot2)
+library(dplyr)
+library(maps)
+library(viridis)
 ```
 
 `CountryVaccine`
@@ -169,9 +191,9 @@ CountryVaccinefor30day <- function(country = "all") {
 countrydata30day <- CountryVaccinefor30day()
 ```
 
-`extractTimeline` I wrote a helper function `extractTimeline` to extract
-both the date and the corresponding number from the `timeline` data
-frame
+`extractTimeline`  
+I wrote a helper function `extractTimeline` to extract both the date and
+the corresponding number from the `timeline` data frame.
 
 ``` r
 # Helper function to extract date and number from timeline data frame
@@ -210,10 +232,11 @@ timeline_extracted <- data.frame(
 )
 timeline_extracted$country <- ConVacdata$country
 
-timeline_extracted 
+head(timeline_extracted) 
 ```
 
-call the `CountryVaccine` function and `extractTimeline` function
+Call the `CountryVaccine` function and `extractTimeline` function to
+make sure the functions are working fine.
 
 ``` r
 #call the functions
@@ -233,7 +256,7 @@ timeline_extracted <- data.frame(
 )
 timeline_extracted$country <- ConVacdata$country 
 
-timeline_extracted #contains three columns: country, date, and number
+head(timeline_extracted) #contains three columns: country, date, and number
 extracted <- timeline_extracted[c("date", "number", "country")]
 ```
 
@@ -259,36 +282,12 @@ timeline_extracted #contains three columns: country, date, and number
 extracted30 <- timeline_extracted[c("date", "number", "country")]
 ```
 
-`longSheet` I created the `longSheet` helper function to transform data
-on vaccine doses for either states or countries into a long-format
-structure. This conversion is intended to simplify and streamline
-subsequent data analysis processes. (note: this function is not working
-now because of unstable data stracture)
-
-``` r
-# longSheet <- function(data, location_column) {
-#   longSheet <- data %>%
-#     pivot_longer(
-#       cols = -c({{ location_column }}),
-#       names_to = "date",
-#       values_to = "number"
-#     )
-#   return(longSheet)
-# }
-# 
-#  #call the function
-# # For data with a "country" column
-# longdata <- longSheet(extracted30, location_column = "country")
-
-# For data with a "state" column
-#longSheet(data_with_state, location_column = "state")
-```
-
-`stateDoses` I’ve created a `stateDoses` function to retrieve data for
-states and territories in the United States that have reported 30 days
-of vaccination records. It returns a data frame containing essential
+`stateVaccine`  
+I’ve created a `stateVaccine` function to retrieve data for states and
+territories in the United States that have reported 30 days of
+vaccination records. It returns a data frame containing essential
 metrics (state and timeline) for each state. The function accepts one
-argument, `state`, with a default value of ‘`all`.’ Users can specify a
+argument, `state`, with a default value of `all`. Users can specify a
 state’s name to retrieve data for a specific state.
 
 ``` r
@@ -343,13 +342,13 @@ stateVaccine <- function(state = "all") {
 stateVac <- stateVaccine()
 ```
 
-`countryCovidcase` I wrote this function to interact with the
-`countries` endpoint of the total Covid-19 case records for all
-countries. It returns a `data.frame` containing 231 observations and 23
-variables, including country, countryInfo, cases, deaths, population,
-and more.By default, the function collects data for all countries, but
-users can specify a particular country’s name to obtain data exclusively
-for that country.
+`countryCovidcase`  
+I wrote this function to interact with the `countries` endpoint of the
+total Covid-19 case records for all countries. It returns a `data.frame`
+containing 231 observations and 23 variables, including country,
+countryInfo, cases, deaths, population, and more. By default, the
+function collects data for all countries, but users can specify a
+particular country’s name to obtain data exclusively for that country.
 
 ``` r
 countryCovidcase <- function(country="all") {
@@ -371,11 +370,12 @@ countryCovidcase <- function(country="all") {
   return(data)
 }
 # call the function
-covid_data <- countryCovidcase()
+#covid_data <- countryCovidcase()
 ```
 
-`countryPop` I’ve written a helper function called `countryPop` to
-facilitate interactions with the `countries` endpoint of the
+`countryPop`  
+I’ve written a helper function called `countryPop` to facilitate
+interactions with the `countries` endpoint of the
 `disease.sh-Open Disease Data API`. This function allows users to input
 either a specific country’s name or choose “all” to obtain population
 data for all countries. It will prove useful in other functions that
@@ -432,16 +432,14 @@ data1 <- countryPop()
 data2 <- countryPop(country = "China")
 ```
 
-`stateCovidCase` I wrote this function to interact with the `states`
-endpoint of the total real time Covid-19 case records updated by every
-10 minutes for all states and territories.It accepts one argument,
-state, and the default value is “all”. The user may enter a state’s name
-to get only data for a specific state.
+`stateCovidCase`  
+I wrote this function to interact with the `states` endpoint of the
+total real time Covid-19 case records updated by every 10 minutes for
+all states and territories. It accepts one argument, state, and the
+default value is “all”. The user may enter a state’s name to get only
+data for a specific state.
 
 ``` r
-library(httr)
-library(jsonlite)
-
 stateCovidCase <- function(state = "all") {
   ###
   # This function returns COVID-19 data for all states and territories or a specific state.
@@ -483,9 +481,10 @@ california_data <- stateCovidCase(state = "California")
 all_states_data <- stateCovidCase()
 ```
 
-`continentCovid` I wrote a helper function named `continent` to interact
-with the `countries` endpoint of the `disease.sh-Open Disease Data API`.
-This function enables users to retrieve data specific to a particular
+`continentCovid`  
+I wrote a helper function named `continent` to interact with the
+`countries` endpoint of the `disease.sh-Open Disease Data API`. This
+function enables users to retrieve data specific to a particular
 continent.
 
 ``` r
@@ -501,43 +500,16 @@ continent <- function(continent_name) {
   
   return(output)
 }
-
+# call the function
 contientcases <- continent(continent_name = "Asia")
 ```
 
-`Cleanvaccinedata` Next, I wanted to create a `Cleanvaccinedata`
-function to deal with retrieved vaccine data.
+`Cleanvaccinedata`  
+I created `Cleanvaccinedata` to clean the vaccine data set that
+retrieved from the `disease.sh-Open Disease Data API`.
 
 ``` r
-# Cleanvaccinedata <- function(data, location_column){
-#                   timeline_data <- data$timeline
-#                   timeline_extracted <- extractTimeline(timeline_data)
-#                   # Get the column names
-#                   col_names <- names(timeline_data)  # Get the column names
-#                   values <- as.numeric(unlist(timeline_data))  # Convert values to numeric  
-#                   # Create a new data frame with two columns: Date and Number
-#                     timeline_extracted <- data.frame(
-#                       date = as.Date(col_names, format = "%m/%d/%y"),  # Convert to Date format
-#                       number = values
-#                     )
-#                     
-#                   timeline_extracted$location_column <- data$location_column
-#                   longdata <- longSheet(timeline_extracted, location_column)          
-#   
-#   return(longdata)
-# 
-# }
-# 
-# # call the function
-# data <- CountryVaccine()
-# clean <- Cleanvaccinedata(data, location_column = "country")
-
-
-#CountryVaccinefor30day()
-```
-
-``` r
-Cleanvaccinedata <- function(data, location_column) {
+Cleanvaccinedata <- function(data, data_type) {
   timeline_data <- data$timeline
   timeline_extracted <- extractTimeline(timeline_data)
   
@@ -552,21 +524,517 @@ Cleanvaccinedata <- function(data, location_column) {
   )
   
   # Assign the location_column to the data frame
-  timeline_extracted[[location_column]] <- data[[location_column]] 
-
- timeline_extracted #contains three columns: country, date, and number
- extracted <- timeline_extracted[c("date", "number", "location_column")]
-
- 
+  timeline_extracted$location <- data[[data_type]]
+  
+  # Select columns of interest
+  extracted <- timeline_extracted[c("date", "number", "location")]
+  
   return(extracted)
 }
-# call the function
-data <- CountryVaccine()
+
+# Example usage for country data
+country_data <- CountryVaccine()
+clean_country_data <- Cleanvaccinedata(country_data, data_type = "country")
 ```
 
-Data Exploration Call the `CountryVaccine` and `countryCovidcase`
-functions to get data sets then combine them by country. I will do the
-further analysis based on the combined data
+`Variant`  
+I created `Variant` function to retrieve the data from API using the
+`/v3/covid-19/variants/countries/ endpoint`. These data came from The
+European Surveillance System -TESSy, provided by 30 counties including
+[`Austria, Belgium, Bulgaria, Croatia, Cyprus, Czechia, Denmark, Estonia, Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Latvia, Liechtenstein, Lithuania, Luxembourg, Malta, Netherlands, Norway, Poland, Portugal, Romania, Slovakia, Slovenia, Spain and Sweden`](https://www.ecdc.europa.eu)
+and released by ECDC updated every week.
 
-Wrap up The major challenge I encountered was the volatility of the
-dataset obtained from the API.
+``` r
+Variant <- function(country) {
+  baseURL <- "https://disease.sh"
+  endpoint <- "/v3/covid-19/variants/countries/"
+  
+  # URL encode the country name
+  encoded_country <- URLencode(country)
+  apiURL <- paste0(baseURL, endpoint, encoded_country)
+
+  # Make an API request to retrieve data
+  response <- httr::GET(apiURL)
+
+  # Check if the response is successful
+  if (httr::http_status(response)$category != "Success") {
+    stop("ERROR: Failed to retrieve data from the API.")
+  }
+
+  # Parse the JSON data
+  data <- jsonlite::fromJSON(httr::content(response, as = "text"))
+
+  # Return the retrieved data
+  return(data)
+}
+```
+
+# Data Exploration
+
+Call the `CountryVaccine` and `countryCovidcase` functions to get data
+sets then combine them by country. I will do the further analysis based
+on the combined data set
+
+``` r
+df1 <- CountryVaccine() %>% 
+  Cleanvaccinedata(data_type = "country") %>%
+  rename(country = location)
+
+df2 <- countryCovidcase()
+Countrycombined <- inner_join(df1, df2, by = "country") %>%
+    # create a new variable
+    mutate(dosePerOneMillion = ((number/population) * 1000000))
+```
+
+Check the correlation between COVID-19 cases and the vaccinated
+population.
+
+``` r
+cor(Countrycombined %>% select(oneCasePerPeople, oneDeathPerPeople,
+                           recoveredPerOneMillion,  
+                           dosePerOneMillion, casesPerOneMillion
+                       )) %>% 
+                round(3)
+```
+
+    ##                        oneCasePerPeople oneDeathPerPeople recoveredPerOneMillion
+    ## oneCasePerPeople                  1.000             0.601                 -0.283
+    ## oneDeathPerPeople                 0.601             1.000                 -0.237
+    ## recoveredPerOneMillion           -0.283            -0.237                  1.000
+    ## dosePerOneMillion                -0.295            -0.202                  0.453
+    ## casesPerOneMillion               -0.318            -0.264                  0.898
+    ##                        dosePerOneMillion casesPerOneMillion
+    ## oneCasePerPeople                  -0.295             -0.318
+    ## oneDeathPerPeople                 -0.202             -0.264
+    ## recoveredPerOneMillion             0.453              0.898
+    ## dosePerOneMillion                  1.000              0.517
+    ## casesPerOneMillion                 0.517              1.000
+
+A negative correlation exists between `dosePerOneMillion` and both
+`oneCasePerPeople` and `oneDeathPerPeople`, with correlation
+coefficients (r scores) of -0.295 and -0.202, respectively.
+Additionally, there is a positive correlation between
+`dosePerOneMillion` and `recoveredPerOneMillion`, indicated by an r
+score of 0.453, as well as a positive correlation between
+`dosePerOneMillion` and `casesPerOneMillion`, with an r score of 0.517.
+
+Numeric variables summary
+
+``` r
+Countrycombined %>%
+  group_by(continent) %>%
+  select(casesPerOneMillion, deathsPerOneMillion, recoveredPerOneMillion, dosePerOneMillion) %>%
+  summarize(n = n(), 
+            avrcases = mean(casesPerOneMillion), 
+            medcases = median(casesPerOneMillion),
+            avrdeaths = mean(deathsPerOneMillion), 
+            meddeaths = median(deathsPerOneMillion),
+            avrrecovered = mean(recoveredPerOneMillion), 
+            medrecovered = median(recoveredPerOneMillion),
+            avrdose = mean(dosePerOneMillion),
+            meddose = median(dosePerOneMillion))
+```
+
+    ## Adding missing grouping variables: `continent`
+
+European countries report the highest average Covid-19 deaths, with an
+average of 2717 deaths per one million people, followed closely by
+countries in South America, which report an average of 2447 deaths per
+one million people, the lowest average Covid-19 deaths (311.9 per one
+million people) was reported in Africa countries. On the other hand,
+countries in Australia-Oceania have the highest average number of
+vaccinations received per one million people, while countries in Africa
+have the lowest cumulative vaccinations.
+
+I generated a scatter plot to visually represent the relationship
+between reported Covid-19 cases and cumulative vaccinations.
+
+``` r
+# Create scatter plot for deaths
+plot1 <- ggplot(Countrycombined, aes(x = casesPerOneMillion, y = dosePerOneMillion, color = continent)) +
+    geom_point(shape = 1,      # Use hollow circles
+               position = position_jitter(width = 1, height = .5)) + 
+    facet_wrap(~ continent) +
+    stat_smooth(method = lm, se = FALSE) + # add a fitted least squares line
+    labs(x = "Reported Covid Cases (Per One Million)",
+         y = "Cumulative Vaccinations (Per One Million)",
+         color = "Continent",
+         title = "Scatter Plots of Covid Cases vs Vaccinations Across Continent",
+       ) +
+    theme_minimal()
+plot1
+```
+
+![](README_files/figure-gfm/unnamed-chunk-176-1.png)<!-- -->
+
+The scatter plot reveals a positive correlation between reported
+Covid-19 cases and cumulative vaccinations, consistently observed across
+all continents.
+
+To check the relationship between Covid-19 mortality and distributed
+vaccination doses, scatter plots were created for the 50 countries with
+the highest mortality rates and the 50 countries with the lowest
+mortality rates.
+
+``` r
+# creat subset with a new variable 'mortality'
+Subset <- Countrycombined %>% 
+                 mutate(mortality = deathsPerOneMillion/casesPerOneMillion) %>%
+                 select(country, mortality, dosePerOneMillion)
+# Filter and select the top 50 countries with the highest mortality rate
+top_50_highest <- Subset %>%
+  arrange(desc(mortality)) %>%
+  head(50) %>% mutate(group = "Top_50")
+
+# Filter and select the bottom 50 countries with the lowest mortality rate
+bottom_50_lowest <- Subset %>%
+  arrange(mortality) %>%
+  head(50) %>% mutate(group = "Bottom_50")
+
+# Combine the top 10 highest and bottom 10 lowest countries
+combined_data <- bind_rows(top_50_highest, bottom_50_lowest)
+
+# Create a plot
+plot6 <- ggplot(combined_data, 
+               aes(x = mortality, y = dosePerOneMillion, color = group)) +
+            geom_point(size = 2.5) +  # Increase the size of the dots
+            # geom_smooth(method = "lm", color = "blue") +  # Add a linear regression trend line
+            labs(title = "Scatter Plot of Mortality Rate vs. Distributed Vaccination Doses",
+                 x = "Mortality Rate",
+                 y = "Distributed Vaccination Doses per One Million People",
+                 color = "Group") +
+            theme_minimal()
+
+# Display the plot
+print(plot6)
+```
+
+![](README_files/figure-gfm/unnamed-chunk-177-1.png)<!-- -->
+
+The scatter plot suggests that the 50 countries with the lowest
+mortality rates generally had higher levels of distributed vaccination
+doses. However, there were a few exceptions where countries with
+relatively low vaccination doses still maintained low mortality rates.
+
+I want to determine if the greater variety of variants is associated
+with a higher cumulative count of Covid-19 cases. First, I examined the
+`Countrycombined` dataset containing data for 30 countries that reported
+variant information. I observed that `Austria` had the highest
+cumulative COVID-19 cases(casesPerOneMillion), while `Poland` had the
+lowest.
+
+``` r
+var_data <- Countrycombined %>% 
+  filter(country %in% 
+           c("Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus", "Czechia", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Italy", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Malta", "Netherlands", "Norway", "Poland", "Portugal", "Romania", "Slovakia", "Slovenia", "Spain", "Sweden")) %>% arrange(desc(casesPerOneMillion))
+
+iso2_values <- var_data$countryInfo$iso2
+
+# Create the line plot with ordered data
+plot <- ggplot(var_data, 
+               aes(x = reorder(factor(iso2_values), casesPerOneMillion), 
+                   y = casesPerOneMillion)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "Trends of COVID-19 Cases in 30 European Countries",
+       x = "Country (ISO2)", 
+       y = "Cases per One Million")
+
+# Rotate x-axis labels for better readability (optional)
+plot2 <- plot + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+# Display the plot
+plot2
+```
+
+![](README_files/figure-gfm/unnamed-chunk-178-1.png)<!-- -->
+
+Subsequently, I retrieved variant data specifically for these two
+countries and created two-way contingency tables to analyze the variants
+in `Austria` and `Poland`.
+
+``` r
+data_A <- Variant("Austria")
+data_A <- data_A %>%
+             # Extract the first four characters as year
+               mutate(year = substr(yearWeek, 1, 4),  
+                      # Extract characters 6 and 7 as week
+                      week = substr(yearWeek, 6, 7)) %>% 
+  filter(numberDetectionsVariant != 0)
+knitr::kable(table(data_A$year, data_A$variant),
+             caption = "Counts of Variant Record Types by Year")
+```
+
+|      | AY.4.2 | B.1.1.529 | B.1.1.7 | B.1.1.7+E484K | B.1.351 | B.1.525 | B.1.617.1 | B.1.617.2 | B.1.621 | BA.1 | BA.2 | BA.2.75 | BA.3 | BA.4 | BA.4/BA.5 | BA.5 | BQ.1 | Other | P.1 | SGTF | UNK | XBB | XBB.1.5 | XBB.1.5+F456L |
+|:-----|-------:|----------:|--------:|--------------:|--------:|--------:|----------:|----------:|--------:|-----:|-----:|--------:|-----:|-----:|----------:|-----:|-----:|------:|----:|-----:|----:|----:|--------:|--------------:|
+| 2020 |      0 |         0 |       5 |             0 |       1 |       0 |         0 |         1 |       0 |    0 |    1 |       0 |    0 |    0 |         0 |    0 |    0 |    43 |   0 |    0 |  11 |   0 |       0 |             0 |
+| 2021 |      9 |         7 |      77 |            24 |      49 |      26 |         8 |        93 |      16 |   17 |    5 |       0 |    0 |    1 |         0 |    0 |    0 |    30 |  34 |    1 |  52 |   0 |       0 |             0 |
+| 2022 |      0 |        15 |       6 |             2 |       0 |       0 |         0 |        50 |       0 |   85 |  104 |      39 |    6 |   77 |        25 |   78 |   33 |    55 |   5 |    4 |  52 |  31 |       9 |             0 |
+| 2023 |      0 |         0 |       0 |             0 |       0 |       0 |         0 |        16 |       0 |    6 |   33 |      54 |    0 |   19 |         0 |   39 |   39 |    29 |   0 |    0 |  13 |  47 |      62 |            44 |
+
+Counts of Variant Record Types by Year
+
+So far, 24 variants have been reported in `Austria`, spanning four
+years. In 2020, 6 variants (B.1.1.529, B.1.351, B.1.617.2, BA.2, other,
+UNK) were detected, followed by 16 (AY.4.2, B.1.1.529, B.1.1.7,
+B.1.1.7+E484K, B.1.351, B.1.525, B.1.617.1, B.1.617.2, B.1.621, BA.1,
+BA.2, BA.4, other, P.1, SGTF, UNK) in 2021, 18 (B.1.1.529, B.1.1.7,
+B.1.1.7+E484K, B.1.617.2, BA.1, BA.2, BA.2.75, BA.3, BA.4, BA.4/BA.5,
+Ba.5, BQ.1, other, P.1, SGTF, UNK, XBB, XBB.1.5) in 2022, and
+12(B.1.617.2, BA.1, BA.2, BA.2.75, BA.4, BA.5, BQ.1, other, UNK, XBB,
+XBB.1.5, XBB.1.5+F456) in 2023.
+
+``` r
+data_P <- Variant("Poland")
+data_P <- data_P %>%
+             # Extract the first four characters as year
+               mutate(year = substr(yearWeek, 1, 4),  
+                      # Extract characters 6 and 7 as week
+                      week = substr(yearWeek, 6, 7)) %>% 
+  filter(numberDetectionsVariant != 0)
+
+knitr::kable(table(data_P$year, data_P$variant),
+             caption = "Counts of Variant Record Types by Year")
+```
+
+|      | B.1.1.529 | B.1.1.7 | B.1.351 | B.1.525 | B.1.617.1 | B.1.617.2 | B.1.621 | BA.1 | BA.2 | BA.2.75 | BA.4 | BA.5 | BQ.1 | C.37 | Other | P.1 | UNK | XBB | XBB.1.5 | XBB.1.5+F456L |
+|:-----|----------:|--------:|--------:|--------:|----------:|----------:|--------:|-----:|-----:|--------:|-----:|-----:|-----:|-----:|------:|----:|----:|----:|--------:|--------------:|
+| 2020 |         0 |       2 |       0 |       0 |         0 |         1 |       0 |    0 |    0 |       0 |    0 |    0 |    0 |    0 |    36 |   0 |   0 |   0 |       0 |             0 |
+| 2021 |         9 |      73 |      36 |       3 |         1 |        78 |       9 |    4 |    1 |       0 |    0 |    1 |    0 |    2 |    62 |  20 |  17 |   0 |       0 |             0 |
+| 2022 |        15 |       1 |       0 |       0 |         3 |        25 |       0 |   30 |   72 |      29 |   45 |   67 |   26 |    0 |    26 |   0 |  11 |  12 |       1 |             0 |
+| 2023 |         0 |       0 |       0 |       0 |         0 |         0 |       0 |    2 |   21 |      43 |    2 |   30 |   36 |    0 |     4 |   0 |   2 |  36 |      65 |            24 |
+
+Counts of Variant Record Types by Year
+
+From 2020 to 2024, a total of 14 variants have been reported in
+`Poland`. In 2020, a single variant (other) was detected, followed by 7
+variants (B.1.1.529, B.1.1.7, B.1.617.2, B.1.621, BA.1, other, UNK) in
+2021, 11 variants (B.1.1.529, B.1.617.2, BA.1, BA.2, BA.2.75, BA.4,
+BA.5, BQ.1, other, UNK, XBB) in 2022, and 5 variants (BA.2, BA.5, BQ.1,
+XBB, XBB.1.5) in 2023.
+
+Based on the contingency tables, we can conclude that the emergence of
+new variants is associated with an increase in Covid-19 cases.
+
+I aimed to determine the total count of reported variants across 30
+European countries. To achieve this, I employed a loop to acquire the
+`var30Coun` data set, which contains the reported variants for these 30
+countries. Subsequently, I conducted further analyses using this data
+set.
+
+``` r
+# List of 30 countries
+countries <- c("Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus", "Czechia", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Italy", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Malta", "Netherlands", "Norway", "Poland", "Portugal", "Romania", "Slovakia", "Slovenia", "Spain", "Sweden")
+
+# Create an empty data frame to store the results
+variants30 <- data.frame()
+
+# Loop through the list of countries and call the 'variant' function for each
+for (country in countries) {
+  # Call your 'variant' function to retrieve data for the current country
+  country_data <- Variant(country)
+  
+  # Add the retrieved data to the result data frame
+  variants30 <- rbind(variants30, country_data)
+}
+  data <- variants30 %>%
+# Extract the first four characters as year
+               mutate(year = substr(yearWeek, 1, 4),  
+                      # Extract characters 6 and 7 as week
+                      week = substr(yearWeek, 6, 7)) %>% 
+  filter(numberDetectionsVariant != 0)
+# Create a contingency table from the combined data
+tb <- table(data$year, data$week, data$country, data$variant)
+
+# Convert Contingency Table to Data Frame:
+contingency_df <- as.data.frame(tb)
+write.csv(contingency_df, file = "contingency_data.csv", row.names = FALSE)
+
+# Specify the column types
+col_types <- cols(
+  Year = col_integer(),
+  Week = col_integer(),
+  Country = col_character(),
+  Variant = col_character(),
+  Freq = col_double() # Specify that "Freq" should be read as a double (numeric)
+)
+
+# Read in the CSV file with the specified column types
+var30Country_1 <- read_csv("contingency_data.csv", 
+                           col_types = col_types,
+                           skip = 1,
+                           col_names = c("Year", "Week", "Country", "Variant", "Freq"))
+var30Coun <- var30Country_1 %>% filter(Freq != 0)
+# make a contingency table to see how many varaint have been detected over 4 years in 30 countries
+knitr::kable(table(var30Coun$Variant, var30Coun$Year), 
+             caption = "Counts of Variant Record Types by Year")
+```
+
+|                 | 2020 | 2021 | 2022 | 2023 |
+|:----------------|-----:|-----:|-----:|-----:|
+| AY.4.2          |    1 |   65 |    9 |    0 |
+| B.1.1.529       |   23 |  163 |  149 |    0 |
+| B.1.1.7         |  186 | 1069 |   40 |    1 |
+| B.1.1.7+E484K   |    0 |   54 |    3 |    0 |
+| B.1.351         |   32 |  557 |    8 |    1 |
+| B.1.427/B.1.429 |    2 |   53 |    0 |    0 |
+| B.1.525         |    1 |  296 |    1 |    0 |
+| B.1.616         |    1 |   14 |    0 |    0 |
+| B.1.617.1       |    0 |  121 |    3 |    0 |
+| B.1.617.2       |   96 | 1218 |  429 |   32 |
+| B.1.617.3       |    0 |    2 |    1 |    0 |
+| B.1.620         |    1 |  107 |    0 |    0 |
+| B.1.621         |    4 |  193 |    0 |    0 |
+| BA.1            |   16 |  249 |  879 |   96 |
+| BA.2            |   26 |  131 | 1325 |  349 |
+| BA.2.75         |    0 |    5 |  552 |  732 |
+| BA.2+L452X      |    0 |    0 |   29 |    0 |
+| BA.3            |    0 |    2 |   88 |    5 |
+| BA.4            |    1 |    4 |  873 |  127 |
+| BA.4/BA.5       |    0 |    0 |   69 |    0 |
+| BA.5            |   27 |   76 | 1090 |  503 |
+| BQ.1            |    3 |    7 |  502 |  568 |
+| C.37            |    0 |  110 |    0 |    0 |
+| Other           | 1098 | 1009 |  882 |  443 |
+| P.1             |    8 |  463 |    9 |    1 |
+| P.3             |    0 |   20 |    0 |    0 |
+| SGTF            |   19 |   21 |   18 |    0 |
+| UNK             |  215 |  388 |  318 |  145 |
+| XBB             |    1 |    2 |  319 |  621 |
+| XBB.1.5         |    1 |    2 |  122 |  901 |
+| XBB.1.5+F456L   |    0 |    0 |    0 |  504 |
+
+Counts of Variant Record Types by Year
+
+There were 31 variants reported in 30 European countries from 2020 to
+2023. The most dominant variant (Frequency more than 1,000) in 2020 was
+`other` out of 21 variants;`B.1.617.2`, `B.1.1.7`, and `Other` (out of
+28 variants) were popular in 2021; `BA.2` and `BA.5` (out of 24
+variants) were dominant, while even 16 variants reported in 2023 but
+their frequencies were less than 733.
+
+``` r
+# Create an area chart
+plot3 <- ggplot(var30Coun, aes(x = Year, y = Freq, fill = Variant)) +
+         geom_area() +
+         labs(title = "Frequency of Variants Over Time",
+         x = "Year",
+         y = "Frequency",
+         fill = "Variant") +
+         theme_minimal()
+plot3
+```
+
+![](README_files/figure-gfm/unnamed-chunk-182-1.png)<!-- -->
+
+The area chart depicts the variations in reported variants across 30
+European countries over the years, emphasizing changes in variant types.
+Variants showed relative stability from 2021 to 2022, but notable shifts
+occurred in the emergence of new variants between 2020 and 2021, as well
+as from 2022 to 2023.
+
+Call the `stateVaccine` and `stateCovidCase` functions to get data sets
+then combine them by country. I will do the further analysis based on
+the combined data set.
+
+``` r
+d1 <-  stateVaccine() %>% 
+  Cleanvaccinedata(data_type = "state") %>%
+  rename(state = location) %>%
+  arrange(state)
+
+d2 <- stateCovidCase() %>% arrange(state)
+Statecombined <- inner_join(d1, d2, by = "state") %>%
+  # The proportion of vacationed people
+  mutate(dosePerOneMillion = ((number/population) * 1000000)) %>%
+  filter(population != 0)
+```
+
+Create choropleth maps to visualize the reported Covid-19 cases and
+rolling out vaccinations across 47 states by using `geom_polygon ()` and
+`geom_point()` functions.
+
+``` r
+# Sample data with state names and a variable of interest
+Statedata <- Statecombined %>% select(state,casesPerOneMillion, deathsPerOneMillion, testsPerOneMillion, dosePerOneMillion) %>% mutate(state = tolower(state))
+
+# Create a data frame with state centroids
+state_centers <- map_data("state") %>%
+  group_by(region) %>%
+  summarise(
+    center_x = mean(long),
+    center_y = mean(lat)
+  )
+
+# Merge your data with state centroids
+merged_data <- inner_join(state_centers, 
+                          Statedata, by = c("region" = "state")) # 47 states
+
+par(mfrow = c(1, 2))
+
+plot4 <- ggplot() +
+  geom_polygon(data = map_data("state"), 
+               aes(x = long, y = lat, group = group),
+               fill = "white", color = "black") +
+  geom_point(data = merged_data, 
+             aes(x = center_x, y = center_y, 
+             fill = casesPerOneMillion, 
+             shape = "COVID Cases"),
+             size = 4, color = "black") +
+  scale_fill_gradient(low = "green", high = "red", name = "PerOneMillion") +
+  scale_shape_manual(values = c("COVID Cases" = 23), 
+                     labels = "Vaccinated Doses") +
+  labs(title = "Reported Covid-19 Cases for 47 States") +
+  coord_fixed(ratio = 1.2) +
+  theme_minimal()
+plot4
+
+plot5 <- ggplot() +
+  geom_polygon(data = map_data("state"), 
+               aes(x = long, y = lat, group = group),
+               fill = "white", color = "black") +
+  geom_point(data = merged_data, 
+             aes(x = center_x, y = center_y, 
+             fill = dosePerOneMillion, 
+             shape = "Vaccinated Doses"),
+             size = 4, color = "black") +
+  scale_fill_gradient(low = "green", high = "red", name = "PerOneMillion") +
+  scale_shape_manual(values = c("Vaccinated Doses" = 23),
+                     labels = "Vaccinated Doses") +
+  labs(title = "Rolling Out Vaccines Doses for 47 States") +
+  coord_fixed(ratio = 1.2) +
+  theme_minimal()
+plot5
+```
+
+<img src="README_files/figure-gfm/unnamed-chunk-184-1.png" width="50%" /><img src="README_files/figure-gfm/unnamed-chunk-184-2.png" width="50%" />
+
+The maps show that reported Covid-19 cases and distributed vaccination
+doses varied across 47 states. The higher reported cases related with
+lower vaccination doses.
+
+# Wrap up
+
+To summarize the work accomplished in this vignette, I developed
+functions to interact with various endpoints of the
+`disease.sh - Open Disease Data API`. I retrieved data from these
+endpoints and conducted exploratory data analysis using numerical
+summaries, contingency tables, and data visualization techniques,
+including plots.
+
+During the analysis, I made several interesting observations. Firstly, I
+observed fluctuations in the types of variants reported over the years,
+which correlated with emergency Covid-19 cases. Additionally, I found a
+notable association between higher distributed vaccination doses and
+lower mortality rates from Covid-19. Surprisingly, I also uncovered a
+positive correlation between reported Covid-19 cases and distributed
+vaccination doses, which was unexpected.
+
+However, I encountered some challenges throughout the process. The most
+significant challenge was the volatility of the data obtained from the
+API, which made it difficult to maintain a stable data structure.
+Furthermore, the limited information available in the retrieved data
+sets posed limitations on the depth of analysis that could be conducted.
+
+In sharing this code, my hope is that it will assist you in working with
+`APIs` for your own data analysis endeavors.
