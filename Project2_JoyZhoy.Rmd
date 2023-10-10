@@ -28,7 +28,7 @@ rmarkdown::render("Project2_JoyZhoy.Rmd",
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# `disease.sh-Open Disease Data API` VIGENETTE 
+# `disease.sh-Open Disease Data API` Vigenette
 In this vignette, I will provide instructions on reading and summarizing data from the `disease.sh-Open Disease Data API`. I will develop a set of functions to access and retrieve specific data of interest from the APIs. Additionally, I will illustrate the process of conducting data analysis using various R packages. 
 
 # Requirements  
