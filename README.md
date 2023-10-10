@@ -5,7 +5,7 @@ Joy Zhou
 
 - <a href="#diseasesh-open-disease-data-api-vigenette"
   id="toc-diseasesh-open-disease-data-api-vigenette"><code>disease.sh-Open Disease Data API</code>
-  VIGENETTE</a>
+  Vigenette</a>
 - <a href="#requirements" id="toc-requirements">Requirements</a>
 - <a href="#data-exploration" id="toc-data-exploration">Data
   Exploration</a>
@@ -26,7 +26,7 @@ rmarkdown::render("Project2_JoyZhoy.Rmd",
 )
 ```
 
-# `disease.sh-Open Disease Data API` VIGENETTE
+# `disease.sh-Open Disease Data API` Vigenette
 
 In this vignette, I will provide instructions on reading and summarizing
 data from the `disease.sh-Open Disease Data API`. I will develop a set
