@@ -238,6 +238,16 @@ timeline_extracted$country <- ConVacdata$country
 head(timeline_extracted) 
 ```
 
+    ## # A tibble: 6 × 3
+    ##   date         number country    
+    ##   <date>        <dbl> <chr>      
+    ## 1 2023-10-10 21716120 Afghanistan
+    ## 2 2023-10-10  3087677 Albania    
+    ## 3 2023-10-10 15267442 Algeria    
+    ## 4 2023-10-10   157062 Andorra    
+    ## 5 2023-10-10 27309449 Angola     
+    ## 6 2023-10-10    24604 Anguilla
+
 Call the `CountryVaccine` function and `extractTimeline` function to
 make sure the functions are working fine.
 
@@ -260,6 +270,19 @@ timeline_extracted <- data.frame(
 timeline_extracted$country <- ConVacdata$country 
 
 head(timeline_extracted) #contains three columns: country, date, and number
+```
+
+    ## # A tibble: 6 × 3
+    ##   date         number country    
+    ##   <date>        <dbl> <chr>      
+    ## 1 2023-10-10 21716120 Afghanistan
+    ## 2 2023-10-10  3087677 Albania    
+    ## 3 2023-10-10 15267442 Algeria    
+    ## 4 2023-10-10   157062 Andorra    
+    ## 5 2023-10-10 27309449 Angola     
+    ## 6 2023-10-10    24604 Anguilla
+
+``` r
 extracted <- timeline_extracted[c("date", "number", "country")]
 ```
 
@@ -585,18 +608,30 @@ cor(Countrycombined %>% select(oneCasePerPeople, oneDeathPerPeople,
                 round(3)
 ```
 
-    ##                        oneCasePerPeople oneDeathPerPeople
-    ## oneCasePerPeople                  1.000             0.601
-    ## oneDeathPerPeople                 0.601             1.000
-    ## recoveredPerOneMillion           -0.283            -0.237
-    ## dosePerOneMillion                -0.295            -0.202
-    ## casesPerOneMillion               -0.318            -0.264
-    ##                        recoveredPerOneMillion dosePerOneMillion
-    ## oneCasePerPeople                       -0.283            -0.295
-    ## oneDeathPerPeople                      -0.237            -0.202
-    ## recoveredPerOneMillion                  1.000             0.453
-    ## dosePerOneMillion                       0.453             1.000
-    ## casesPerOneMillion                      0.898             0.517
+    ##                        oneCasePerPeople
+    ## oneCasePerPeople                  1.000
+    ## oneDeathPerPeople                 0.601
+    ## recoveredPerOneMillion           -0.283
+    ## dosePerOneMillion                -0.295
+    ## casesPerOneMillion               -0.318
+    ##                        oneDeathPerPeople
+    ## oneCasePerPeople                   0.601
+    ## oneDeathPerPeople                  1.000
+    ## recoveredPerOneMillion            -0.237
+    ## dosePerOneMillion                 -0.202
+    ## casesPerOneMillion                -0.264
+    ##                        recoveredPerOneMillion
+    ## oneCasePerPeople                       -0.283
+    ## oneDeathPerPeople                      -0.237
+    ## recoveredPerOneMillion                  1.000
+    ## dosePerOneMillion                       0.453
+    ## casesPerOneMillion                      0.898
+    ##                        dosePerOneMillion
+    ## oneCasePerPeople                  -0.295
+    ## oneDeathPerPeople                 -0.202
+    ## recoveredPerOneMillion             0.453
+    ## dosePerOneMillion                  1.000
+    ## casesPerOneMillion                 0.517
     ##                        casesPerOneMillion
     ## oneCasePerPeople                   -0.318
     ## oneDeathPerPeople                  -0.264
@@ -630,6 +665,19 @@ Countrycombined %>%
 ```
 
     ## Adding missing grouping variables: `continent`
+
+    ## # A tibble: 6 × 10
+    ##   continent       n avrcases medcases avrdeaths
+    ##   <chr>       <int>    <dbl>    <dbl>     <dbl>
+    ## 1 Africa         54   33538.     4898      312.
+    ## 2 Asia           49  160561.    79571      715.
+    ## 3 Australia-…    17  236213.   243909      472.
+    ## 4 Europe         47  401337.   433548     2717.
+    ## 5 North Amer…    34  185042.   169613     1516.
+    ## 6 South Amer…    13  176257.   134187     2447.
+    ## # ℹ 5 more variables: meddeaths <dbl>,
+    ## #   avrrecovered <dbl>, medrecovered <dbl>,
+    ## #   avrdose <dbl>, meddose <dbl>
 
 European countries report the highest average Covid-19 deaths, with an
 average of 2717 deaths per one million people, followed closely by
