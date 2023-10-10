@@ -729,7 +729,7 @@ plot1 <- ggplot(Countrycombined, aes(x = casesPerOneMillion, y = dosePerOneMilli
 plot1
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
 
 The scatter plot reveals a positive correlation between reported
 Covid-19 cases and cumulative vaccinations, consistently observed across
@@ -773,7 +773,7 @@ plot2 <- ggplot(combined_data,
 print(plot2)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
 
 The scatter plot suggests that the 50 countries with the lowest
 mortality rates generally had higher levels of distributed vaccination
@@ -818,7 +818,7 @@ plot3 <- plot + theme(axis.text.x = element_text(angle = 0, hjust = 1))
 print(plot3)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
 
 Subsequently, I retrieved variant data specifically for these two
 countries and created two-way contingency tables to analyze the variants
@@ -969,7 +969,7 @@ plot4 <- ggplot(var30Coun, aes(x = Year, y = Freq, fill = Variant)) +
 print(plot4)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
 
 The area chart depicts the variations in reported variants across 30
 European countries over the years, emphasizing changes in variant types.
@@ -1051,7 +1051,7 @@ plot6 <- ggplot() +
 plot6
 ```
 
-<img src="README_files/figure-gfm/unnamed-chunk-25-1.png" width="50%" /><img src="README_files/figure-gfm/unnamed-chunk-25-2.png" width="50%" />
+<img src="README_files/figure-gfm/unnamed-chunk-26-1.png" width="50%" /><img src="README_files/figure-gfm/unnamed-chunk-26-2.png" width="50%" />
 
 The maps show that reported Covid-19 cases and distributed vaccination
 doses varied across 47 states. The higher reported cases related with
