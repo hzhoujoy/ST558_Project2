@@ -3,9 +3,6 @@
 Joy Zhou
 2023-10-03
 
-- <a href="#diseasesh-open-disease-data-api-vigenette"
-  id="toc-diseasesh-open-disease-data-api-vigenette"><code>disease.sh-Open Disease Data API</code>
-  Vigenette</a>
 - <a href="#requirements" id="toc-requirements">Requirements</a>
 - <a href="#load-the-libraries-that-i-needed-to-build-this-vigenette"
   id="toc-load-the-libraries-that-i-needed-to-build-this-vigenette">Load
@@ -34,26 +31,6 @@ Joy Zhou
 - <a href="#data-exploration" id="toc-data-exploration">Data
   Exploration</a>
 - <a href="#wrap-up" id="toc-wrap-up">Wrap up</a>
-
-``` r
-library(rmarkdown)
-
-rmarkdown::render("C:\\PestList\\MyDocuments\\Statistic\\ST558\\repos\\ST558_Project2\\Project2_JoyZhou.Rmd",  
-                  input = "Project2_JoyZhou.Rmd",
-                  output_format = "github_document", 
-                  output_file = "README.md",
-                  runtime = "static",
-                  clean = TRUE,
-                  params = NULL,
-                  knit_meta = NULL,
-                  envir = parent.frame(),
-                  run_pandoc = TRUE,
-                  quiet = FALSE,
-                  encoding = "UTF-8"
-)
-```
-
-# `disease.sh-Open Disease Data API` Vigenette
 
 In this vignette, I will provide instructions on reading and summarizing
 data from the `disease.sh-Open Disease Data API`. I will develop a set
@@ -730,7 +707,7 @@ plot1 <- ggplot(Countrycombined, aes(x = casesPerOneMillion, y = dosePerOneMilli
 plot1
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
 
 The scatter plot reveals a positive correlation between reported
 Covid-19 cases and cumulative vaccinations, consistently observed across
@@ -774,7 +751,7 @@ plot2 <- ggplot(combined_data,
 print(plot2)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
 
 The scatter plot suggests that the 50 countries with the lowest
 mortality rates generally had higher levels of distributed vaccination
@@ -819,7 +796,7 @@ plot3 <- plot + theme(axis.text.x = element_text(angle = 0, hjust = 1))
 print(plot3)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
 
 Subsequently, I retrieved variant data specifically for these two
 countries and created two-way contingency tables to analyze the variants
@@ -970,7 +947,7 @@ plot4 <- ggplot(var30Coun, aes(x = Year, y = Freq, fill = Variant)) +
 print(plot4)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
 
 The area chart depicts the variations in reported variants across 30
 European countries over the years, emphasizing changes in variant types.
@@ -1052,7 +1029,7 @@ plot6 <- ggplot() +
 plot6
 ```
 
-<img src="README_files/figure-gfm/unnamed-chunk-25-1.png" width="50%" /><img src="README_files/figure-gfm/unnamed-chunk-25-2.png" width="50%" />
+<img src="README_files/figure-gfm/unnamed-chunk-24-1.png" width="50%" /><img src="README_files/figure-gfm/unnamed-chunk-24-2.png" width="50%" />
 
 The maps show that reported Covid-19 cases and distributed vaccination
 doses varied across 47 states. The higher reported cases related with

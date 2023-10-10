@@ -9,29 +9,10 @@ output:
      df_print: tibble
 ---
 
-```{r, eval=FALSE} 
-library(rmarkdown)
-
-rmarkdown::render("C:\\PestList\\MyDocuments\\Statistic\\ST558\\repos\\ST558_Project2\\Project2_JoyZhou.Rmd",  
-                  input = "Project2_JoyZhou.Rmd",
-                  output_format = "github_document", 
-                  output_file = "README.md",
-                  runtime = "static",
-                  clean = TRUE,
-                  params = NULL,
-                  knit_meta = NULL,
-                  envir = parent.frame(),
-                  run_pandoc = TRUE,
-                  quiet = FALSE,
-                  encoding = "UTF-8"
-)
-```
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# `disease.sh-Open Disease Data API` Vigenette
 In this vignette, I will provide instructions on reading and summarizing data from the `disease.sh-Open Disease Data API`. I will develop a set of functions to access and retrieve specific data of interest from the APIs. Additionally, I will illustrate the process of conducting data analysis using various R packages. 
 
 # Requirements  
