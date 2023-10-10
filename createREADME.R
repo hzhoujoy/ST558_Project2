@@ -4,8 +4,8 @@
 
 library(rmarkdown)
 
-rmarkdown::render("C:\\PestList\\MyDocuments\\Statistic\\ST558\\repos\\ST558_Project2\\Project2_JoyZhoy.Rmd", 
-                  input = "Project2_JoyZhou.Rmd"
+rmarkdown::render( 
+                  input = "Project2_JoyZhou.Rmd",
                   output_format = "github_document", 
                   output_file = "README.md",
                   runtime = "static",
