@@ -756,11 +756,11 @@ plot5 <- ggplot() +
   geom_point(data = merged_data, 
              aes(x = center_x, y = center_y, 
              fill = casesPerOneMillion, 
-             shape = "COVID Cases"),
-             size = 4, color = "black") +
+             shape = "Reported Covid-19 Cases"),
+             size = 5, color = "black") +
   scale_fill_gradient(low = "green", high = "red", name = "PerOneMillion") +
-  scale_shape_manual(values = c("COVID Cases" = 23), 
-                     labels = "Vaccinated Doses") +
+  scale_shape_manual(values = c("Reported Covid-19 Cases" = 21), 
+                     labels = "Reported Covid-19 Cases") +
   labs(title = "Reported Covid-19 Cases for 47 States") +
   coord_fixed(ratio = 1.2) +
   theme_minimal()

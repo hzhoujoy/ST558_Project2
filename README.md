@@ -239,13 +239,13 @@ head(timeline_extracted)
 ```
 
     ## # A tibble: 6 × 3
-    ##   date         number country    
-    ##   <date>        <dbl> <chr>      
-    ## 1 2023-10-10 21716120 Afghanistan
-    ## 2 2023-10-10  3087677 Albania    
-    ## 3 2023-10-10 15267442 Algeria    
-    ## 4 2023-10-10   157062 Andorra    
-    ## 5 2023-10-10 27309449 Angola     
+    ##   date         number country 
+    ##   <date>        <dbl> <chr>   
+    ## 1 2023-10-10 21716120 Afghani…
+    ## 2 2023-10-10  3087677 Albania 
+    ## 3 2023-10-10 15267442 Algeria 
+    ## 4 2023-10-10   157062 Andorra 
+    ## 5 2023-10-10 27309449 Angola  
     ## 6 2023-10-10    24604 Anguilla
 
 Call the `CountryVaccine` function and `extractTimeline` function to
@@ -273,13 +273,13 @@ head(timeline_extracted) #contains three columns: country, date, and number
 ```
 
     ## # A tibble: 6 × 3
-    ##   date         number country    
-    ##   <date>        <dbl> <chr>      
-    ## 1 2023-10-10 21716120 Afghanistan
-    ## 2 2023-10-10  3087677 Albania    
-    ## 3 2023-10-10 15267442 Algeria    
-    ## 4 2023-10-10   157062 Andorra    
-    ## 5 2023-10-10 27309449 Angola     
+    ##   date         number country 
+    ##   <date>        <dbl> <chr>   
+    ## 1 2023-10-10 21716120 Afghani…
+    ## 2 2023-10-10  3087677 Albania 
+    ## 3 2023-10-10 15267442 Algeria 
+    ## 4 2023-10-10   157062 Andorra 
+    ## 5 2023-10-10 27309449 Angola  
     ## 6 2023-10-10    24604 Anguilla
 
 ``` r
@@ -664,20 +664,25 @@ Countrycombined %>%
             meddose = median(dosePerOneMillion))
 ```
 
-    ## Adding missing grouping variables: `continent`
+    ## Adding missing grouping
+    ## variables: `continent`
 
     ## # A tibble: 6 × 10
-    ##   continent       n avrcases medcases avrdeaths
-    ##   <chr>       <int>    <dbl>    <dbl>     <dbl>
-    ## 1 Africa         54   33538.     4898      312.
-    ## 2 Asia           49  160561.    79571      715.
-    ## 3 Australia-…    17  236213.   243909      472.
-    ## 4 Europe         47  401337.   433548     2717.
-    ## 5 North Amer…    34  185042.   169613     1516.
-    ## 6 South Amer…    13  176257.   134187     2447.
-    ## # ℹ 5 more variables: meddeaths <dbl>,
-    ## #   avrrecovered <dbl>, medrecovered <dbl>,
-    ## #   avrdose <dbl>, meddose <dbl>
+    ##   continent         n avrcases
+    ##   <chr>         <int>    <dbl>
+    ## 1 Africa           54   33538.
+    ## 2 Asia             49  160561.
+    ## 3 Australia-Oc…    17  236213.
+    ## 4 Europe           47  401337.
+    ## 5 North America    34  185042.
+    ## 6 South America    13  176257.
+    ## # ℹ 7 more variables:
+    ## #   medcases <dbl>,
+    ## #   avrdeaths <dbl>,
+    ## #   meddeaths <dbl>,
+    ## #   avrrecovered <dbl>,
+    ## #   medrecovered <dbl>,
+    ## #   avrdose <dbl>, …
 
 European countries report the highest average Covid-19 deaths, with an
 average of 2717 deaths per one million people, followed closely by
@@ -707,7 +712,7 @@ plot1 <- ggplot(Countrycombined, aes(x = casesPerOneMillion, y = dosePerOneMilli
 plot1
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
 
 The scatter plot reveals a positive correlation between reported
 Covid-19 cases and cumulative vaccinations, consistently observed across
@@ -751,7 +756,7 @@ plot2 <- ggplot(combined_data,
 print(plot2)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
 
 The scatter plot suggests that the 50 countries with the lowest
 mortality rates generally had higher levels of distributed vaccination
@@ -796,7 +801,7 @@ plot3 <- plot + theme(axis.text.x = element_text(angle = 0, hjust = 1))
 print(plot3)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
 
 Subsequently, I retrieved variant data specifically for these two
 countries and created two-way contingency tables to analyze the variants
@@ -947,7 +952,7 @@ plot4 <- ggplot(var30Coun, aes(x = Year, y = Freq, fill = Variant)) +
 print(plot4)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->
 
 The area chart depicts the variations in reported variants across 30
 European countries over the years, emphasizing changes in variant types.
@@ -1001,11 +1006,11 @@ plot5 <- ggplot() +
   geom_point(data = merged_data, 
              aes(x = center_x, y = center_y, 
              fill = casesPerOneMillion, 
-             shape = "COVID Cases"),
-             size = 4, color = "black") +
+             shape = "Reported Covid-19 Cases"),
+             size = 5, color = "black") +
   scale_fill_gradient(low = "green", high = "red", name = "PerOneMillion") +
-  scale_shape_manual(values = c("COVID Cases" = 23), 
-                     labels = "Vaccinated Doses") +
+  scale_shape_manual(values = c("Reported Covid-19 Cases" = 21), 
+                     labels = "Reported Covid-19 Cases") +
   labs(title = "Reported Covid-19 Cases for 47 States") +
   coord_fixed(ratio = 1.2) +
   theme_minimal()
@@ -1029,7 +1034,7 @@ plot6 <- ggplot() +
 plot6
 ```
 
-<img src="README_files/figure-gfm/unnamed-chunk-24-1.png" width="50%" /><img src="README_files/figure-gfm/unnamed-chunk-24-2.png" width="50%" />
+<img src="README_files/figure-gfm/unnamed-chunk-28-1.png" width="50%" /><img src="README_files/figure-gfm/unnamed-chunk-28-2.png" width="50%" />
 
 The maps show that reported Covid-19 cases and distributed vaccination
 doses varied across 47 states. The higher reported cases related with
