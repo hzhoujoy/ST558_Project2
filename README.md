@@ -14,7 +14,7 @@ Joy Zhou
 ``` r
 library(rmarkdown)
 
-rmarkdown::render("C:\\PestList\\MyDocuments\\Statistic\\ST558\\repos\\ST558_Project2\\Project2_JoyZhoy.Rmd", 
+rmarkdown::render("Project2_JoyZhoy.Rmd", 
                   output_format = "github_document", 
                   output_file = "README.md",
                   output_options = list(
@@ -29,7 +29,9 @@ rmarkdown::render("C:\\PestList\\MyDocuments\\Statistic\\ST558\\repos\\ST558_Pro
 # disease.sh-Open Disease Data API VIGENETTE
 
 In this vignette, I will describe how to read and summarize data from
-`disease.sh-Open Disease Data API`.
+`disease.sh-Open Disease Data API`. I will create several functions to
+access and retrieve data that I am interested in from APIs. I will also
+demonstrate how to conduct analysis using some of R packages.
 
 # Requirements
 
@@ -38,7 +40,7 @@ To use the functions for interacting with the
 
 - [`tidyverse`](https://www.tidyverse.org/): for data manipulation,
   visualization, and analysis.  
-- [\`jsonlite’](https://cran.r-project.org/web/packages/jsonlite/): to
+- [`jsonlite`](https://cran.r-project.org/web/packages/jsonlite/): to
   convert JSON data to data frame.  
 - [`httr2`](https://httr2.r-lib.org/):to access API.  
 - [`maps`](https://cran.r-project.org/web/packages/maps/index.html): to
