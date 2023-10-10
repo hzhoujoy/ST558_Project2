@@ -18,9 +18,9 @@ rmarkdown::render("Project2_JoyZhoy.Rmd",
                   output_format = "github_document", 
                   output_file = "README.md",
                   output_options = list(
-                    name_value_pairs = "value",
                     toc = TRUE,
                     toc_depth = 3,
+                    toc_float = TRUE,
                     number_sections = TRUE,
                     df_print = "tibble"
                   )
@@ -37,11 +37,16 @@ In this vignette, I will describe how to read and summarize data from
 To use the functions for interacting with the
 `disease.sh-Open Disease Data` API, I used the following packages:
 
-[`tidyverse`](https://www.tidyverse.org/): for data manipulation,
-visualization, and analysis. it includes essential package such as
-`dplyr`, `ggplot2`, `tidyr`, `readr`.
-[`jsonlite'](https://cran.r-project.org/web/packages/jsonlite/): to convert JSON data to data frame.   [`httr2`](https://httr2.r-lib.org/):to access API.   [`maps`](https://cran.r-project.org/web/packages/maps/index.html): to create choropleth map.   [`viridis\`](https://cran.r-project.org/web/packages/viridis/index.html):
-to make color map.
+- [`tidyverse`](https://www.tidyverse.org/): for data manipulation,
+  visualization, and analysis. it includes essential package such as
+  `dplyr`, `ggplot2`, `tidyr`, `readr`. +
+  [\`jsonlite’](https://cran.r-project.org/web/packages/jsonlite/): to
+  convert JSON data to data frame.  
+- [`httr2`](https://httr2.r-lib.org/):to access API.  
+- [`maps`](https://cran.r-project.org/web/packages/maps/index.html): to
+  create choropleth map.  
+- [`viridis`](https://cran.r-project.org/web/packages/viridis/index.html):
+  to make color map.
 
 Load the libraries that I needed to build this `vigenette`
 
@@ -633,7 +638,7 @@ plot1 <- ggplot(Countrycombined, aes(x = casesPerOneMillion, y = dosePerOneMilli
 plot1
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
 
 The scatter plot reveals a positive correlation between reported
 Covid-19 cases and cumulative vaccinations, consistently observed across
@@ -663,7 +668,7 @@ bottom_50_lowest <- Subset %>%
 combined_data <- bind_rows(top_50_highest, bottom_50_lowest)
 
 # Create a plot
-plot6 <- ggplot(combined_data, 
+plot2 <- ggplot(combined_data, 
                aes(x = mortality, y = dosePerOneMillion, color = group)) +
             geom_point(size = 2.5) +  # Increase the size of the dots
             # geom_smooth(method = "lm", color = "blue") +  # Add a linear regression trend line
@@ -674,10 +679,10 @@ plot6 <- ggplot(combined_data,
             theme_minimal()
 
 # Display the plot
-print(plot6)
+print(plot2)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
 
 The scatter plot suggests that the 50 countries with the lowest
 mortality rates generally had higher levels of distributed vaccination
@@ -717,13 +722,13 @@ plot <- ggplot(var_data,
        y = "Cases per One Million")
 
 # Rotate x-axis labels for better readability (optional)
-plot2 <- plot + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+plot3 <- plot + theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 # Display the plot
-print(plot2)
+print(plot3)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
 
 Subsequently, I retrieved variant data specifically for these two
 countries and created two-way contingency tables to analyze the variants
@@ -864,17 +869,17 @@ their frequencies were less than 733.
 
 ``` r
 # Create an area chart
-plot3 <- ggplot(var30Coun, aes(x = Year, y = Freq, fill = Variant)) +
+plot4 <- ggplot(var30Coun, aes(x = Year, y = Freq, fill = Variant)) +
          geom_area() +
          labs(title = "Frequency of Variants Over Time",
          x = "Year",
          y = "Frequency",
          fill = "Variant") +
          theme_minimal()
-print(plot3)
+print(plot4)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
 
 The area chart depicts the variations in reported variants across 30
 European countries over the years, emphasizing changes in variant types.
@@ -921,7 +926,7 @@ merged_data <- inner_join(state_centers,
 
 par(mfrow = c(1, 2))
 
-plot4 <- ggplot() +
+plot5 <- ggplot() +
   geom_polygon(data = map_data("state"), 
                aes(x = long, y = lat, group = group),
                fill = "white", color = "black") +
@@ -936,9 +941,9 @@ plot4 <- ggplot() +
   labs(title = "Reported Covid-19 Cases for 47 States") +
   coord_fixed(ratio = 1.2) +
   theme_minimal()
-plot4
+plot5
 
-plot5 <- ggplot() +
+plot6 <- ggplot() +
   geom_polygon(data = map_data("state"), 
                aes(x = long, y = lat, group = group),
                fill = "white", color = "black") +
@@ -953,10 +958,10 @@ plot5 <- ggplot() +
   labs(title = "Rolling Out Vaccines Doses for 47 States") +
   coord_fixed(ratio = 1.2) +
   theme_minimal()
-plot5
+plot6
 ```
 
-<img src="README_files/figure-gfm/unnamed-chunk-26-1.png" width="50%" /><img src="README_files/figure-gfm/unnamed-chunk-26-2.png" width="50%" />
+<img src="README_files/figure-gfm/unnamed-chunk-27-1.png" width="50%" /><img src="README_files/figure-gfm/unnamed-chunk-27-2.png" width="50%" />
 
 The maps show that reported Covid-19 cases and distributed vaccination
 doses varied across 47 states. The higher reported cases related with
