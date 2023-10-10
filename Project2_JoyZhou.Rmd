@@ -12,15 +12,18 @@ output:
 ```{r, eval=FALSE} 
 library(rmarkdown)
 
-rmarkdown::render("C:\\PestList\\MyDocuments\\Statistic\\ST558\\repos\\ST558_Project2\\Project2_JoyZhoy.Rmd", 
+rmarkdown::render("C:\\PestList\\MyDocuments\\Statistic\\ST558\\repos\\ST558_Project2\\Project2_JoyZhou.Rmd",  
+                  input = "Project2_JoyZhou.Rmd",
                   output_format = "github_document", 
                   output_file = "README.md",
-                  output_options = list(
-                    toc = TRUE,
-                    toc_depth = 3,
-                    toc_float = TRUE,
-                    df_print = "tibble"
-                  )
+                  runtime = "static",
+                  clean = TRUE,
+                  params = NULL,
+                  knit_meta = NULL,
+                  envir = parent.frame(),
+                  run_pandoc = TRUE,
+                  quiet = FALSE,
+                  encoding = "UTF-8"
 )
 ```
 

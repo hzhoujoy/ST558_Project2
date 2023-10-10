@@ -630,16 +630,19 @@ Exploration</a></li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rmarkdown)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>rmarkdown<span class="sc">::</span><span class="fu">render</span>(<span class="st">&quot;C:</span><span class="sc">\\</span><span class="st">PestList</span><span class="sc">\\</span><span class="st">MyDocuments</span><span class="sc">\\</span><span class="st">Statistic</span><span class="sc">\\</span><span class="st">ST558</span><span class="sc">\\</span><span class="st">repos</span><span class="sc">\\</span><span class="st">ST558_Project2</span><span class="sc">\\</span><span class="st">Project2_JoyZhoy.Rmd&quot;</span>, </span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">output_format =</span> <span class="st">&quot;github_document&quot;</span>, </span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">output_file =</span> <span class="st">&quot;README.md&quot;</span>,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">output_options =</span> <span class="fu">list</span>(</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">toc =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">toc_depth =</span> <span class="dv">3</span>,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">toc_float =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">df_print =</span> <span class="st">&quot;tibble&quot;</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                  )</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>rmarkdown<span class="sc">::</span><span class="fu">render</span>(<span class="st">&quot;C:</span><span class="sc">\\</span><span class="st">PestList</span><span class="sc">\\</span><span class="st">MyDocuments</span><span class="sc">\\</span><span class="st">Statistic</span><span class="sc">\\</span><span class="st">ST558</span><span class="sc">\\</span><span class="st">repos</span><span class="sc">\\</span><span class="st">ST558_Project2</span><span class="sc">\\</span><span class="st">Project2_JoyZhou.Rmd&quot;</span>,  </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">input =</span> <span class="st">&quot;Project2_JoyZhou.Rmd&quot;</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">output_format =</span> <span class="st">&quot;github_document&quot;</span>, </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">output_file =</span> <span class="st">&quot;README.md&quot;</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">runtime =</span> <span class="st">&quot;static&quot;</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">clean =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                  <span class="at">params =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                  <span class="at">knit_meta =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                  <span class="at">envir =</span> <span class="fu">parent.frame</span>(),</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                  <span class="at">run_pandoc =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                  <span class="at">quiet =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                  <span class="at">encoding =</span> <span class="st">&quot;UTF-8&quot;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <h1 id="diseasesh-open-disease-data-api-vigenette"><code>disease.sh-Open Disease Data API</code>
 Vigenette</h1>
 <p>In this vignette, I will provide instructions on reading and
