@@ -4,8 +4,8 @@ Joy Zhou
 2023-10-03
 
 - <a href="#diseasesh-open-disease-data-api-vigenette"
-  id="toc-diseasesh-open-disease-data-api-vigenette">disease.sh-Open
-  Disease Data API VIGENETTE</a>
+  id="toc-diseasesh-open-disease-data-api-vigenette"><code>disease.sh-Open Disease Data API</code>
+  VIGENETTE</a>
 - <a href="#requirements" id="toc-requirements">Requirements</a>
 - <a href="#data-exploration" id="toc-data-exploration">Data
   Exploration</a>
@@ -21,27 +21,33 @@ rmarkdown::render("Project2_JoyZhoy.Rmd",
                     toc = TRUE,
                     toc_depth = 3,
                     toc_float = TRUE,
-                    number_sections = TRUE,
                     df_print = "tibble"
                   )
 )
 ```
 
-# disease.sh-Open Disease Data API VIGENETTE
+# `disease.sh-Open Disease Data API` VIGENETTE
 
-In this vignette, I will describe how to read and summarize data from
-`disease.sh-Open Disease Data API`.
+In this vignette, I will provide instructions on reading and summarizing
+data from the `disease.sh-Open Disease Data API`. I will develop a set
+of functions to access and retrieve specific data of interest from the
+APIs. Additionally, I will illustrate the process of conducting data
+analysis using various R packages.
 
 # Requirements
 
 To use the functions for interacting with the
 `disease.sh-Open Disease Data` API, I used the following packages:
 
-[`tidyverse`](https://www.tidyverse.org/): for data manipulation,
-visualization, and analysis. it includes essential package such as
-`dplyr`, `ggplot2`, `tidyr`, `readr`.
-[`jsonlite'](https://cran.r-project.org/web/packages/jsonlite/): to convert JSON data to data frame.   [`httr2`](https://httr2.r-lib.org/):to access API.   [`maps`](https://cran.r-project.org/web/packages/maps/index.html): to create choropleth map.   [`viridis\`](https://cran.r-project.org/web/packages/viridis/index.html):
-to make color map.
+- [`tidyverse`](https://www.tidyverse.org/): for data manipulation,
+  visualization, and analysis.  
+- [`jsonlite`](https://cran.r-project.org/web/packages/jsonlite/): to
+  convert JSON data to data frame.  
+- [`httr2`](https://httr2.r-lib.org/):to access API.  
+- [`maps`](https://cran.r-project.org/web/packages/maps/index.html): to
+  create choropleth map.  
+- [`viridis`](https://cran.r-project.org/web/packages/viridis/index.html):
+  to make color map.
 
 Load the libraries that I needed to build this `vigenette`
 
@@ -228,12 +234,12 @@ head(timeline_extracted)
     ## # A tibble: 6 × 3
     ##   date         number country    
     ##   <date>        <dbl> <chr>      
-    ## 1 2023-10-09 21565416 Afghanistan
-    ## 2 2023-10-09  3087677 Albania    
-    ## 3 2023-10-09 15267442 Algeria    
-    ## 4 2023-10-09   157062 Andorra    
-    ## 5 2023-10-09 27309449 Angola     
-    ## 6 2023-10-09    24604 Anguilla
+    ## 1 2023-10-10 21716120 Afghanistan
+    ## 2 2023-10-10  3087677 Albania    
+    ## 3 2023-10-10 15267442 Algeria    
+    ## 4 2023-10-10   157062 Andorra    
+    ## 5 2023-10-10 27309449 Angola     
+    ## 6 2023-10-10    24604 Anguilla
 
 Call the `CountryVaccine` function and `extractTimeline` function to
 make sure the functions are working fine.
@@ -262,12 +268,12 @@ head(timeline_extracted) #contains three columns: country, date, and number
     ## # A tibble: 6 × 3
     ##   date         number country    
     ##   <date>        <dbl> <chr>      
-    ## 1 2023-10-09 21565416 Afghanistan
-    ## 2 2023-10-09  3087677 Albania    
-    ## 3 2023-10-09 15267442 Algeria    
-    ## 4 2023-10-09   157062 Andorra    
-    ## 5 2023-10-09 27309449 Angola     
-    ## 6 2023-10-09    24604 Anguilla
+    ## 1 2023-10-10 21716120 Afghanistan
+    ## 2 2023-10-10  3087677 Albania    
+    ## 3 2023-10-10 15267442 Algeria    
+    ## 4 2023-10-10   157062 Andorra    
+    ## 5 2023-10-10 27309449 Angola     
+    ## 6 2023-10-10    24604 Anguilla
 
 ``` r
 extracted <- timeline_extracted[c("date", "number", "country")]
@@ -640,7 +646,7 @@ Countrycombined %>%
     ## 1 Africa               54   33538.     4898      312.      93.5       24678.
     ## 2 Asia                 49  160561.    79571      715.     580        142430.
     ## 3 Australia-Oceania    17  236213.   243909      472.     153        176651.
-    ## 4 Europe               47  401322.   433519     2717.    2603        355088.
+    ## 4 Europe               47  401337.   433548     2717.    2603        355099.
     ## 5 North America        34  185042.   169613     1516.    1446.       155183.
     ## 6 South America        13  176257.   134187     2447.    2359        154533.
     ## # ℹ 3 more variables: medrecovered <dbl>, avrdose <dbl>, meddose <dbl>
@@ -746,20 +752,19 @@ var_data <- Countrycombined %>%
 
 iso2_values <- var_data$countryInfo$iso2
 
-# Create the line plot with ordered data
+# Create the bar chart
 plot <- ggplot(var_data, 
-               aes(x = reorder(factor(iso2_values), casesPerOneMillion), 
+               aes(x = reorder(factor(iso2_values), -casesPerOneMillion), 
                    y = casesPerOneMillion)) +
-  geom_line() +
-  geom_point() +
-  labs(title = "Trends of COVID-19 Cases in 30 European Countries",
-       x = "Country (ISO2)", 
+  geom_bar(stat = "identity", fill = "blue") +
+  labs(title = "COVID-19 Cases per One Million in 30 European Countries",
+       x = "Country (ISO2)",
        y = "Cases per One Million")
 
 # Rotate x-axis labels for better readability (optional)
-plot3 <- plot + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+plot3 <- plot + theme(axis.text.x = element_text(angle = 0, hjust = 1))
 
-# Display the plot
+# Display the bar chart
 print(plot3)
 ```
 
